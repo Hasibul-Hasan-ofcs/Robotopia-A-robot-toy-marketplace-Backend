@@ -10,7 +10,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const uri = `mongodb+srv://${username}:${password}@cluster0.jgfyk2r.mongodb.net/?retryWrites=true&w=majority`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -44,6 +44,14 @@ async function run() {
       const cursor = galleryCollection.find();
       const galleryData = await cursor.toArray();
       res.send(galleryData);
+    });
+
+    app.get("/toy-details/:id", async (req, res) => {
+      const id = new ObjectId(req.params.id);
+      const query = { _id: id };
+      const toyDetailsData = await allToysCollection.findOne(query);
+      // console.log(toyDetailsData);
+      res.send(toyDetailsData);
     });
 
     app.listen(port, () => {
