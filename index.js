@@ -54,6 +54,17 @@ async function run() {
       res.send(toyDetailsData);
     });
 
+    app.get("/mytoys", async (req, res) => {
+      console.log(req.query);
+    });
+
+    // POST
+    app.post("/toys", async (req, res) => {
+      const data = req.body;
+      const result = await allToysCollection.insertOne(data);
+      res.send(result);
+    });
+
     app.listen(port, () => {
       console.log(`listening to port ${port}`);
     });
