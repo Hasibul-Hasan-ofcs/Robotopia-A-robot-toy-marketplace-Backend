@@ -56,6 +56,13 @@ async function run() {
 
     app.get("/mytoys", async (req, res) => {
       console.log(req.query);
+      let query = {};
+      if (req.query?.email) {
+        query = { sellerEmail: req.query.email };
+      }
+      const result = await allToysCollection.find(query).toArray();
+      console.log(result);
+      res.send(result);
     });
 
     // POST
